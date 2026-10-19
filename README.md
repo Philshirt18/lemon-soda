@@ -1,5 +1,7 @@
 # Lemon Soda
 
+**Live: <https://lemon-soda.vercel.app>** (open it on your phone and add it to your home screen)
+
 A simple, private companion that helps you quit a bad habit. This first version is built around cutting back on alcohol (the name comes from soda with lemon, the best alternative to a beer).
 
 - **Your photo, your words, your days.** Pick a photo that gives you strength, write a sentence that shows up above your buttons, and count your days.
