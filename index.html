@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b3d2c">
+  <title>Lemon Soda</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/favicon-48.png">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Lemon Soda">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div id="bg" aria-hidden="true"></div>
+  <div id="shade" aria-hidden="true"></div>
+
+  <main id="app">
+    <!-- Onboarding: shown only on the very first visit -->
+    <section id="view-onboarding" class="view" hidden>
+      <div class="ob-card glass">
+        <div class="steps">
+          <div class="step" data-step="0">
+            <h1 data-i18n="langTitle"></h1>
+            <p class="muted" data-i18n="langHint"></p>
+            <div class="lang-list" id="lang-list"></div>
+          </div>
+
+          <div class="step" data-step="1">
+            <div class="logo-dot" aria-hidden="true"></div>
+            <h1 data-i18n="welcomeTitle"></h1>
+            <p data-i18n="welcomeText"></p>
+          </div>
+
+          <div class="step" data-step="2">
+            <h1 data-i18n="honestyTitle"></h1>
+            <p class="note" data-i18n="honestyTool"></p>
+            <p class="note" data-i18n="honestyPrivacy"></p>
+            <p class="note" data-i18n="honestyHealth"></p>
+          </div>
+
+          <div class="step" data-step="3">
+            <h1 data-i18n="nameTitle"></h1>
+            <p class="muted" data-i18n="nameHint"></p>
+            <input id="ob-name" class="field" type="text" maxlength="40" autocomplete="off" data-i18n-placeholder="namePlaceholder">
+          </div>
+
+          <div class="step" data-step="4">
+            <h1 data-i18n="photoTitle"></h1>
+            <p data-i18n="photoText"></p>
+            <input id="ob-photo" type="file" accept="image/*" hidden>
+            <button id="ob-photo-btn" class="btn btn-ghost" type="button"></button>
+            <p id="ob-photo-error" class="error" role="alert" hidden data-i18n="photoError"></p>
+          </div>
+
+          <div class="step" data-step="5">
+            <h1 data-i18n="mottoTitle"></h1>
+            <p data-i18n="mottoText"></p>
+            <textarea id="ob-motto" class="field" rows="2" maxlength="120" data-i18n-placeholder="mottoPlaceholder"></textarea>
+          </div>
+
+          <div class="step" id="step-install">
+            <h1 data-i18n="installTitle"></h1>
+            <p data-i18n="installText"></p>
+            <details class="howto-toggle">
+              <summary data-i18n="installHow"></summary>
+              <div id="guide-onboarding"></div>
+            </details>
+          </div>
+
+        </div>
+
+        <div class="ob-nav">
+          <button id="ob-back" class="btn btn-quiet" type="button" data-i18n="back"></button>
+          <div class="dots" id="ob-dots" aria-hidden="true"></div>
+          <button id="ob-next" class="btn btn-primary" type="button" data-i18n="next"></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Home: photo, motto, three buttons -->
+    <section id="view-home" class="view" hidden>
+      <div class="home-top">
+        <button id="menu-btn" class="menu-btn glass" type="button" aria-haspopup="true" aria-expanded="false" data-i18n-aria="menuAria">
+          <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
+        </button>
+        <div id="menu" class="menu glass" role="menu" hidden>
+          <button id="menu-hof" class="menu-item" type="button" role="menuitem" data-i18n="menuHof"></button>
+          <button id="menu-install" class="menu-item" type="button" role="menuitem" data-i18n="menuInstall"></button>
+          <button id="menu-privacy" class="menu-item" type="button" role="menuitem" data-i18n="menuPrivacy"></button>
+          <button id="menu-legal" class="menu-item" type="button" role="menuitem" data-i18n="menuLegal"></button>
+          <button id="menu-settings" class="menu-item" type="button" role="menuitem" data-i18n="menuSettings"></button>
+        </div>
+      </div>
+      <div class="home-bottom">
+        <p id="motto" class="motto"></p>
+        <button id="btn-counter" class="btn counter" type="button" data-i18n-aria="counterLabel">
+          <span id="counter-value">0</span>
+          <small id="counter-sub" class="counter-sub" data-i18n="counterToday" hidden></small>
+        </button>
+        <div class="row">
+          <button id="btn-slip" class="btn btn-glass" type="button" data-i18n="slipButton"></button>
+          <button id="btn-conviction" class="btn btn-glass" type="button" data-i18n="convictionButton"></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Privacy policy and legal notice -->
+    <section id="view-legal" class="view" hidden>
+      <div class="settings-wrap glass">
+        <h1 id="legal-title"></h1>
+        <div id="legal-body" class="legal-body"></div>
+        <button id="legal-close" class="btn btn-primary" type="button" data-i18n="done"></button>
+      </div>
+    </section>
+
+    <!-- Hall of Fame: all badges, earned ones lit up -->
+    <section id="view-hof" class="view" hidden>
+      <div class="settings-wrap glass">
+        <h1 data-i18n="hofTitle"></h1>
+        <div id="hof-grid" class="hof-grid"></div>
+        <button id="hof-close" class="btn btn-primary" type="button" data-i18n="done"></button>
+      </div>
+    </section>
+
+    <!-- Badge effect: shown when a milestone is reached -->
+    <section id="view-badge" class="view" hidden>
+      <canvas id="confetti" class="confetti" aria-hidden="true"></canvas>
+      <div class="badge-inner">
+        <div class="badge-rays" aria-hidden="true"></div>
+        <div id="badge-medal" class="badge-medal"></div>
+        <p class="badge-kicker" data-i18n="badgeTitle"></p>
+        <h1 id="badge-name"></h1>
+        <p id="badge-days" class="muted"></p>
+        <button id="badge-ok" class="btn btn-primary" type="button" data-i18n="next"></button>
+      </div>
+    </section>
+
+    <!-- Settings: language, name, words, photo. Changes apply immediately. -->
+    <section id="view-settings" class="view" hidden>
+      <div class="settings-wrap glass">
+        <h1 data-i18n="settingsTitle"></h1>
+        <div class="set-group">
+          <p class="set-label" data-i18n="settingsLang"></p>
+          <div class="lang-list" id="set-lang-list"></div>
+        </div>
+        <div class="set-group">
+          <label class="set-label" for="set-name" data-i18n="settingsName"></label>
+          <input id="set-name" class="field" type="text" maxlength="40" autocomplete="off" data-i18n-placeholder="namePlaceholder">
+        </div>
+        <div class="set-group">
+          <label class="set-label" for="set-motto" data-i18n="settingsMotto"></label>
+          <textarea id="set-motto" class="field" rows="2" maxlength="120" data-i18n-placeholder="mottoPlaceholder"></textarea>
+        </div>
+        <div class="set-group">
+          <p class="set-label" data-i18n="settingsPhoto"></p>
+          <input id="set-photo" type="file" accept="image/*" hidden>
+          <button id="set-photo-btn" class="btn btn-ghost" type="button" data-i18n="photoChange"></button>
+          <p id="set-photo-error" class="error" role="alert" hidden data-i18n="photoError"></p>
+        </div>
+        <button id="set-close" class="btn btn-primary" type="button" data-i18n="done"></button>
+      </div>
+    </section>
+
+    <!-- Convictions: two kinds of reasons, shown one at a time -->
+    <section id="view-conviction" class="view" hidden>
+      <div class="conv-wrap">
+        <div id="conv-choose" class="conv-panel">
+          <h1 data-i18n="convTitle"></h1>
+          <button id="conv-neg" class="conv-choice glass" type="button">
+            <strong data-i18n="convNeg"></strong>
+            <span class="muted" data-i18n="convNegSub"></span>
+          </button>
+          <button id="conv-pos" class="conv-choice glass" type="button">
+            <strong data-i18n="convPos"></strong>
+            <span class="muted" data-i18n="convPosSub"></span>
+          </button>
+        </div>
+        <div id="conv-reason" class="conv-panel" hidden>
+          <p id="conv-kind" class="conv-kind"></p>
+          <p id="conv-text" class="conv-text glass" aria-live="polite"></p>
+        </div>
+        <div class="conv-nav">
+          <button id="conv-back" class="btn btn-quiet" type="button" data-i18n="back"></button>
+          <button id="conv-next" class="btn btn-primary" type="button" data-i18n="reasonNext" hidden></button>
+          <button id="conv-close" class="btn btn-glass" type="button" data-i18n="close"></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Splash: shown on every reopening -->
+    <section id="view-splash" class="view" hidden>
+      <div class="splash-inner">
+        <div id="splash-number" class="splash-number">0</div>
+        <p id="splash-hi" class="splash-hi" hidden></p>
+        <p id="splash-text" class="splash-text"></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Friendly question: same day twice, or days missed -->
+  <dialog id="dlg" class="dlg glass">
+    <form id="dlg-form" method="dialog">
+      <h2 id="dlg-title"></h2>
+      <p id="dlg-text" class="muted"></p>
+      <label class="muted" for="dlg-days" data-i18n="dlgField"></label>
+      <input id="dlg-days" class="field" type="text" inputmode="numeric" autocomplete="off">
+      <p id="dlg-error" class="error" role="alert" hidden data-i18n="dlgInvalid"></p>
+      <div class="dlg-actions">
+        <button id="dlg-keep" class="btn btn-quiet" type="button" data-i18n="dlgKeep"></button>
+        <button id="dlg-save" class="btn btn-primary" type="submit" data-i18n="dlgSave"></button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- How to add the app to the home screen (also reachable any time from the menu) -->
+  <dialog id="install-dlg" class="dlg glass">
+    <h2 data-i18n="installTitle"></h2>
+    <p data-i18n="installText"></p>
+    <div id="guide-dialog"></div>
+    <div class="dlg-actions">
+      <span></span>
+      <button id="install-dlg-close" class="btn btn-primary" type="button" data-i18n="done"></button>
+    </div>
+  </dialog>
+
+  <!-- Encouragement after "I slipped" -->
+  <dialog id="slip-dlg" class="dlg glass">
+    <h2 id="slip-title" data-i18n="slipTitle"></h2>
+    <p id="slip-text"></p>
+    <div class="dlg-actions">
+      <span></span>
+      <button id="slip-ok" class="btn btn-primary" type="button" data-i18n="slipOk"></button>
+    </div>
+  </dialog>
+
+  <!-- Shared medal gradients -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="g-ring" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff2a8"/><stop offset="0.5" stop-color="#ffd93b"/><stop offset="1" stop-color="#d99a00"/></linearGradient>
+      <radialGradient id="g-face" cx="0.35" cy="0.3" r="0.9"><stop offset="0" stop-color="#1c8f64"/><stop offset="1" stop-color="#0b3d2c"/></radialGradient>
+      <linearGradient id="g-ring-locked" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7e8a84"/><stop offset="1" stop-color="#4b5752"/></linearGradient>
+    </defs>
+  </svg>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PRD – Gewohnheit-Stopper</title>
+<style>
+  :root{--bg:#f4faf6;--fg:#1f2a24;--card:#fff;--line:#d9e6de;--accent:#0f9d6b;--muted:#5d6b63;--warn:#b8860b}
+  @media (prefers-color-scheme:dark){:root{--bg:#0f1713;--fg:#e8f1ec;--card:#18221d;--line:#2a3a32;--accent:#3ddc97;--muted:#9bb0a5;--warn:#e0b84a}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
+  main{max-width:860px;margin:0 auto;padding:24px 16px 64px}
+  h1{margin:0 0 4px;font-size:1.9rem} h2{margin:34px 0 10px;font-size:1.2rem}
+  .sub{color:var(--muted);margin:0 0 18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+  .tag{display:inline-block;font-size:.75rem;padding:1px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
+  svg{width:100%;height:auto;display:block}
+  svg text{fill:var(--fg);font:13px system-ui,sans-serif}
+  svg .box{fill:var(--card);stroke:var(--line);stroke-width:2}
+  svg .hl{fill:var(--card);stroke:var(--accent);stroke-width:3}
+  svg .arrow{stroke:var(--muted);stroke-width:2;fill:none}
+  .tabs button{font:inherit;padding:8px 12px;margin:3px 3px 3px 0;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer}
+  .tabs button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#06130d;font-weight:600}
+  .panel h3{margin:10px 0 4px;font-size:1rem}
+  .panel ul{margin:4px 0 8px;padding-left:20px}
+  details{background:var(--card);border:1px solid var(--line);border-radius:10px;margin:8px 0;padding:10px 14px}
+  summary{cursor:pointer;font-weight:600}
+  .assume{border-left:5px solid var(--warn)}
+  .ms{display:flex;flex-wrap:wrap;gap:8px}
+  .ms span{padding:6px 12px;border-radius:99px;border:1px solid var(--accent);background:var(--card)}
+</style>
+</head>
+<body>
+<main>
+  <h1>Gewohnheit-Stopper <span class="tag">Arbeitstitel</span></h1>
+  <p class="sub">Product Requirements · Version 1: nur Alkohol <span class="tag">Entwurf</span></p>
+
+  <p>Scope sagte: <em>"3 Buttons, Meilensteine, kein Login."</em> Jetzt steht genau fest, was jeder Bildschirm zeigt und wie man prüft, dass er funktioniert.</p>
+
+  <h2>Die Reise</h2>
+  <div class="card">
+    <svg viewBox="0 0 780 260" role="img" aria-label="Diagramm der Nutzerreise: Onboarding, Splash, Startbildschirm, drei Aktionen">
+      <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" style="fill:var(--muted)"/></marker></defs>
+      <rect class="box" x="10" y="15" width="130" height="55" rx="10"/><text x="75" y="40" text-anchor="middle">Onboarding</text><text x="75" y="58" text-anchor="middle">(nur 1. Start)</text>
+      <path class="arrow" d="M140 42 H175" marker-end="url(#a)"/>
+      <rect class="box" x="180" y="15" width="130" height="55" rx="10"/><text x="245" y="40" text-anchor="middle">Splashscreen</text><text x="245" y="58" text-anchor="middle">Zahl + Spruch</text>
+      <path class="arrow" d="M310 42 H345" marker-end="url(#a)"/>
+      <rect class="hl" x="350" y="10" width="200" height="65" rx="10"/><text x="450" y="35" text-anchor="middle" font-weight="700">Startbildschirm</text><text x="450" y="55" text-anchor="middle">Bild · Spruch · 3 Buttons</text>
+      <path class="arrow" d="M450 75 V105 M450 105 H110 V130" marker-end="url(#a)"/>
+      <path class="arrow" d="M450 105 V130" marker-end="url(#a)"/>
+      <path class="arrow" d="M450 105 H670 V130" marker-end="url(#a)"/>
+      <rect class="box" x="15" y="135" width="190" height="60" rx="10"/><text x="110" y="160" text-anchor="middle" font-weight="700">Zähler-Button</text><text x="110" y="180" text-anchor="middle">+1 Tag, ggf. Badge</text>
+      <rect class="box" x="355" y="135" width="190" height="60" rx="10"/><text x="450" y="160" text-anchor="middle" font-weight="700">Schwach geworden</text><text x="450" y="180" text-anchor="middle">Spruch, Zahl bleibt</text>
+      <rect class="box" x="575" y="135" width="190" height="60" rx="10"/><text x="670" y="160" text-anchor="middle" font-weight="700">Überzeugung</text><text x="670" y="180" text-anchor="middle">Negativ oder Positiv</text>
+      <rect class="box" x="590" y="15" width="170" height="55" rx="10" style="stroke-dasharray:5 4"/><text x="675" y="40" text-anchor="middle">Menü oben rechts</text><text x="675" y="58" text-anchor="middle">Hall of Fame · Settings</text>
+      <rect class="box" x="15" y="215" width="750" height="35" rx="10"/><text x="390" y="238" text-anchor="middle">Alles bleibt auf dem Gerät · Gerätewechsel: Tage neu eingeben, Badges kommen von selbst</text>
+    </svg>
+  </div>
+
+  <h2>Jeder Bildschirm im Detail</h2>
+  <div class="card tabs">
+    <div role="group" aria-label="Bildschirme" id="tabs"></div>
+    <div class="panel" id="panel"></div>
+  </div>
+
+  <h2>Meilensteine</h2>
+  <div class="card ms"><span>1 Tag</span><span>1 Woche</span><span>1 Monat</span><span>2 Monate</span><span>3 Monate</span><span>6 Monate</span><span>1 Jahr</span></div>
+
+  <h2>Look and Feel</h2>
+  <div class="card">Kräftiges Grün oder Blau · Premium-Gefühl, nicht nach Baukasten · Effekte (weiche Übergänge, Glas-/Verlaufs-Optik, Badge-Effekt) · Lesbar auf jedem Foto · ermutigender, nie beschämender Ton.</div>
+
+  <h2>Sonderfälle</h2>
+  <details open><summary>Zweimal am selben Tag getippt</summary><p>Freundliche Nachfrage: War das Absicht? Dazu ein Eingabefeld für die Tage.</p></details>
+  <details><summary>Einen Tag ausgelassen</summary><p>Dieselbe Nachfrage mit Eingabefeld beim nächsten Öffnen.</p></details>
+  <details><summary>Neues Gerät</summary><p>Tage-Zahl eingeben, die passenden Badges erscheinen automatisch. Kein Export, keine Anmeldung.</p></details>
+  <details><summary>Nach "Schwach geworden"</summary><p>Zahl bleibt stehen. Ermutigung statt Strafe.</p></details>
+
+  <h2>Jetzt, später, nicht</h2>
+  <details open><summary>Wir bauen (Version 1)</summary><p>Onboarding, Startbildschirm mit 3 Buttons, Splashscreen, Überzeugung (negativ/positiv), Tage-Korrektur, Meilensteine mit Badge-Effekt und Hall of Fame, Menü mit Einstellungen, Gerätewechsel per Eingabefeld.</p></details>
+  <details><summary>Zurückgestellt</summary><p>Spielen und Drogen · Stimmungsabfrage mit Smileys</p></details>
+  <details><summary>Nicht-Ziele</summary><p>Anmeldung und Konten · Daten an einen Server schicken</p></details>
+
+  <h2>Bitte bestätigen (Annahmen)</h2>
+  <div class="card assume"><strong>Sprachen:</strong> Englisch, Deutsch und Spanisch von Anfang an, Auswahl im Onboarding (Änderung nach der Freigabe, auf Wunsch des Learners).</div>
+  <div class="card assume"><strong>Überzeugung:</strong> Gründe erscheinen einzeln, Tippen zeigt den nächsten. Die KI schreibt die Texte als Vorschlag, du prüfst sie.</div>
+</main>
+<script>
+  var data=[
+   ["Onboarding","Kurz, nur beim ersten Start. Zuerst die Sprachauswahl (EN, DE, ES). Erklärt, wofür Bild und Spruch sind und dass man sie später in den Einstellungen ändern kann.",["Name (optional)","Hintergrundbild als Motivation","Eigener Spruch"],["Erscheint nur beim ersten Öffnen","Name lässt sich überspringen","Danach folgt der Startbildschirm"]],
+   ["Splash","Bei jedem erneuten Öffnen, kurz.",["Heute schon eingetragen: 'Schon 5 Tage – weiter so'","Neuer Tag: 'Tag 6 – du schaffst das heute'"],["Erscheint bei jedem erneuten Öffnen","Führt danach zum Startbildschirm"]],
+   ["Startbildschirm","Das Bild füllt den Bildschirm, der Spruch steht dicht über den Buttons, unten 3 Buttons, oben rechts das Menü.",["Button 1: Zähler, zeigt nur die Zahl","Button 2: Ich bin schwach geworden","Button 3: Ich brauche eine Überzeugung"],["Genau 3 Buttons","Tipp auf Button 1 erhöht die Zahl um 1","Nach Button 2 bleibt die Zahl gleich"]],
+   ["Überzeugung","Zwei Auswahlmöglichkeiten mit vielen konkreten Gründen, immer motivierend.",["Negative Einflüsse: z. B. Leberschäden, Familie vernachlässigen, Vorbildfunktion","Positive Gründe: z. B. 'Du hast schon Schwierigeres geschafft', 'Morgen mehr Energie'"],["Beide Arten sind wählbar","Mehrere verschiedene Gründe pro Art","Auch negative Gründe sind nicht beschämend"]],
+   ["Badges","Effekt beim Erreichen, Übersicht in der Hall of Fame.",["Effekt mit dem neuen Badge","Hall of Fame: erreichte und offene Badges","Badges folgen aus der Tage-Zahl"],["Effekt beim Meilenstein","Nach Eingabe von 10 Tagen sind 1 Tag und 1 Woche vorhanden"]],
+   ["Einstellungen","Über das Menü oben rechts.",["Name, Bild und Spruch ändern"],["Änderungen sind sofort auf dem Startbildschirm sichtbar"]]
+  ];
+  var tabs=document.getElementById('tabs'),panel=document.getElementById('panel');
+  function li(a){return a.map(function(x){return '<li>'+x+'</li>'}).join('')}
+  function show(i){
+    Array.prototype.forEach.call(tabs.children,function(b,j){b.setAttribute('aria-pressed',i===j)});
+    var d=data[i];
+    panel.innerHTML='<p>'+d[1]+'</p><h3>Verhalten</h3><ul>'+li(d[2])+'</ul><h3>So prüfst du es</h3><ul>'+li(d[3])+'</ul>';
+  }
+  data.forEach(function(d,i){var b=document.createElement('button');b.textContent=d[0];b.onclick=function(){show(i)};tabs.appendChild(b)});
+  show(0);
+</script>
+</body>
+</html>

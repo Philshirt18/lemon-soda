@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spec – Lemon Soda</title>
+<style>
+  :root{--bg:#f3faf6;--fg:#1c2a23;--card:#fff;--line:#d6e5dc;--accent:#0f7a52;--gold:#c99a00;--muted:#5b6b62}
+  @media (prefers-color-scheme:dark){:root{--bg:#0d1a14;--fg:#e8f2ec;--card:#16251d;--line:#27382f;--accent:#3ddc97;--gold:#ffd93b;--muted:#9bb0a5}}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
+  main{max-width:880px;margin:0 auto;padding:24px 16px 64px}
+  h1{margin:0 0 4px;font-size:1.9rem} h2{margin:34px 0 10px;font-size:1.2rem}
+  .sub{color:var(--muted);margin:0 0 18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+  .tag{display:inline-block;font-size:.75rem;padding:1px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
+  svg{width:100%;height:auto;display:block}
+  svg text{fill:var(--fg);font:13px system-ui,sans-serif}
+  svg .box{fill:var(--card);stroke:var(--line);stroke-width:2}
+  svg .dev{fill:var(--card);stroke:var(--accent);stroke-width:3}
+  svg .no{fill:var(--card);stroke:var(--muted);stroke-width:2;stroke-dasharray:5 4}
+  svg .arrow{stroke:var(--muted);stroke-width:2;fill:none}
+  .tabs button,.steps button{font:inherit;padding:8px 12px;margin:3px 3px 3px 0;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer}
+  .tabs button[aria-pressed="true"],.steps button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#04120b;font-weight:600}
+  .panel p{margin:8px 0}
+  details{background:var(--card);border:1px solid var(--line);border-radius:10px;margin:8px 0;padding:10px 14px}
+  summary{cursor:pointer;font-weight:600}
+  table{width:100%;border-collapse:collapse;font-size:.92rem}
+  th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+  pre{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;overflow:auto;font-size:.85rem}
+  code{font-family:ui-monospace,Menlo,monospace}
+  .sw{display:inline-block;width:18px;height:18px;border-radius:5px;vertical-align:middle;margin-right:6px;border:1px solid var(--line)}
+</style>
+</head>
+<body>
+<main>
+  <h1>Lemon Soda <span class="tag">Technical Spec</span></h1>
+  <p class="sub">Eine Webseite, die sich wie eine App anfühlt. Alles Persönliche bleibt auf dem Gerät. <span class="tag">Entwurf</span></p>
+
+  <h2>So funktioniert es</h2>
+  <div class="card">
+    <svg viewBox="0 0 780 300" role="img" aria-label="Architektur: Vercel liefert Dateien, der Browser auf dem Handy speichert alle Daten lokal">
+      <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" style="fill:var(--muted)"/></marker></defs>
+      <rect class="box" x="15" y="20" width="200" height="90" rx="12"/>
+      <text x="115" y="48" text-anchor="middle" font-weight="700">Vercel</text>
+      <text x="115" y="70" text-anchor="middle">liefert nur Dateien</text>
+      <text x="115" y="90" text-anchor="middle">(HTML, CSS, JS, Icons)</text>
+      <path class="arrow" d="M215 65 H300" marker-end="url(#a)"/>
+      <text x="257" y="55" text-anchor="middle">einmal laden</text>
+      <rect class="dev" x="305" y="10" width="460" height="280" rx="14"/>
+      <text x="535" y="35" text-anchor="middle" font-weight="700">Dein Handy (Browser / installierte PWA)</text>
+      <rect class="box" x="325" y="55" width="200" height="90" rx="10"/>
+      <text x="425" y="80" text-anchor="middle" font-weight="700">App-Code</text>
+      <text x="425" y="102" text-anchor="middle">Bildschirme, Zähler-Regeln,</text>
+      <text x="425" y="120" text-anchor="middle">Meilensteine, Texte</text>
+      <path class="arrow" d="M525 100 H565" marker-end="url(#a)"/>
+      <rect class="box" x="570" y="55" width="180" height="90" rx="10"/>
+      <text x="660" y="80" text-anchor="middle" font-weight="700">Lokaler Speicher</text>
+      <text x="660" y="102" text-anchor="middle">Name, Spruch, Tage,</text>
+      <text x="660" y="120" text-anchor="middle">Badges, Foto</text>
+      <rect class="box" x="325" y="165" width="425" height="55" rx="10"/>
+      <text x="537" y="188" text-anchor="middle" font-weight="700">Service Worker (Hilfsprogramm)</text>
+      <text x="537" y="208" text-anchor="middle">merkt sich die Dateien, App startet auch ohne Netz</text>
+      <rect class="no" x="325" y="235" width="425" height="45" rx="10"/>
+      <text x="537" y="262" text-anchor="middle">Nichts geht zurück zu Vercel, GitHub oder Dritten</text>
+    </svg>
+  </div>
+
+  <h2>Eine Reise durch das System</h2>
+  <div class="card steps">
+    <div role="group" aria-label="Schritte" id="steps"></div>
+    <div class="panel"><p id="stepText"></p><p><small id="stepRef" class="tag"></small></p></div>
+  </div>
+
+  <h2>Bausteine</h2>
+  <div class="card tabs">
+    <div role="group" aria-label="Bausteine" id="tabs"></div>
+    <div class="panel"><p id="compText"></p><p><span class="tag" id="compRef"></span> <span class="tag" id="compFile"></span></p></div>
+  </div>
+
+  <h2>Wo liegen die Daten?</h2>
+  <div class="card"><table>
+    <tr><th>Daten</th><th>Wo</th><th>Beim Zurückkommen</th></tr>
+    <tr><td>Name, Spruch</td><td>localStorage</td><td>bleibt</td></tr>
+    <tr><td>Geschaffte Tage, letztes Datum</td><td>localStorage</td><td>bleibt, steuert Splash und Nachfragen</td></tr>
+    <tr><td>Badges</td><td>localStorage</td><td>bleibt</td></tr>
+    <tr><td>Hintergrundbild</td><td>IndexedDB (verkleinert)</td><td>bleibt</td></tr>
+    <tr><td>Neues Handy</td><td>—</td><td>leer: Tage eingeben, Badges ergeben sich</td></tr>
+  </table></div>
+
+  <h2>Look and Feel</h2>
+  <div class="card">
+    <span class="sw" style="background:#0b3d2c"></span><span class="sw" style="background:#126b4a"></span><span class="sw" style="background:#ffd93b"></span>
+    Smaragdgrün als Grundton, Zitronengelb als Akzent (Vorschlag, passend zum Icon). Glas-Optik, weiche Verläufe, Badge-Effekt mit Konfetti, mitgelieferte weiche Sans-Serif (Vorschlag Manrope). Lesbar auf jedem Foto durch dunkle Glasflächen.
+  </div>
+
+  <h2>Dateien</h2>
+<pre><code>lemon-soda/
+├── index.html            # alle Bildschirme
+├── manifest.webmanifest  # PWA: Name, Farben, Icons
+├── sw.js                 # Service Worker (Offline)
+├── css/styles.css        # Aussehen, Glas, Animationen
+├── js/
+│   ├── app.js            # Start, Bildschirmwechsel, Buttons
+│   ├── store.js          # localStorage und IndexedDB
+│   ├── days.js           # Zähler-Regeln, Datum, Korrektur
+│   ├── milestones.js     # Badges und Effekt
+│   ├── content.js        # alle Texte (EN, DE, ES)
+│   └── image.js          # Foto wählen und verkleinern
+├── assets/icons, fonts
+├── assets-source/icon-source.webp
+├── devpost/
+└── README.md</code></pre>
+
+  <h2>Wo läuft es, wie probiert man es aus?</h2>
+  <div class="card">
+    <p><strong>Lokal:</strong> <code>python3 -m http.server 8080</code> im Projektordner, dann <code>http://localhost:8080</code> öffnen. Der Service Worker läuft nur auf localhost oder https.</p>
+    <p><strong>Veröffentlichen:</strong> Repository auf GitHub, dann auf Vercel importieren (kein Build-Befehl). Der Link ist ein Extra. Pflicht der Abgabe sind das Demovideo und das öffentliche Repository.</p>
+    <p><strong>Keine</strong> Schlüssel, Konten oder Kosten.</p>
+  </div>
+
+  <h2>Was kann schiefgehen?</h2>
+  <details open><summary>Browser löscht lokale Daten (z. B. Safari)</summary><p>Die App startet neu oder fragt nach den Tagen. Das Eingabefeld stellt die Zahl her, Badges folgen daraus. Die PWA auf dem Home-Bildschirm mindert das Risiko.</p></details>
+  <details><summary>Foto zu groß oder nicht lesbar</summary><p>Die App verkleinert es. Bei Fehler: freundliche Meldung und grüner Verlauf als Standard.</p></details>
+  <details><summary>Datum und Mitternacht</summary><p>Lokales Datum, unplausible Eingaben zeigen eine kurze Meldung.</p></details>
+  <details><summary>Alte Dateien im Cache</summary><p>Cache-Version wird bei jeder Änderung hochgezählt.</p></details>
+
+  <h2>Vereinfachungen</h2>
+  <div class="card">Vanilla HTML/CSS/JS statt Framework · Tage von Hand eingeben statt Export · drei Sprachen von Anfang an (Texte in einer Datei, eigene kleine Struktur ohne Bibliothek) · kein Server, keine Datenbank · Texte als KI-Vorschlag, du prüfst sie.</div>
+
+  <h2>Noch zu prüfen</h2>
+  <div class="card"><ul>
+    <li>Manrope-Lizenz und Dateigröße</li>
+    <li>Spanische Texte von einer Person mit Muttersprache gegenlesen</li>
+    <li>Aktuelle Vercel-Schritte vor dem Deploy</li>
+    <li>Home-Bildschirm-Hinweis auf deinem Gerät testen</li>
+    <li>Icon: WebP mit weißen Ecken, wird bereinigt und in PNG-Größen umgewandelt</li>
+  </ul></div>
+</main>
+<script>
+  var steps=[
+    ["1 Erster Start","Der Browser lädt die Seite von Vercel. Ohne Eintrag 'onboarded' zeigt die App das Onboarding. Du wählst ein Bild, es wird verkleinert und lokal gespeichert, dazu Name und Spruch.","prd.md > Onboarding"],
+    ["2 Startbildschirm","Die App liest Bild, Spruch und Tage aus dem lokalen Speicher und zeichnet Vollbild mit 3 Buttons.","prd.md > Startbildschirm und die 3 Buttons"],
+    ["3 Tag geschafft","Die App prüft das heutige Datum. Heute noch nichts eingetragen: +1, Datum speichern, Meilenstein prüfen, Badge-Effekt zeigen. Sonst: Nachfrage mit Zahlenfeld.","prd.md > Tage korrigieren"],
+    ["4 Rückfall","Die App zeigt einen zufälligen aufmunternden Spruch. Die Zahl bleibt gleich.","prd.md > Startbildschirm und die 3 Buttons"],
+    ["5 Überzeugung","Du wählst negativ oder positiv und blätterst durch die Gründe.","prd.md > Überzeugung"],
+    ["6 Nächster Tag","Beim Öffnen vergleicht die App das Datum mit dem letzten Tag und zeigt den Splash. Wurde ein Tag ausgelassen, fragt sie nach den Tagen.","prd.md > Splashscreen beim erneuten Öffnen"]
+  ];
+  var comps=[
+    ["Onboarding","Kurze Karten: Zweck, Hinweis 'Hilfsmittel, keine Garantie, anonym', Name, Bild und Spruch, Hinweis zum Home-Bildschirm.","prd.md > Onboarding","js/app.js, index.html"],
+    ["Home Screen","Vollbild-Hintergrund, Spruch dicht über den 3 Buttons, Menü oben rechts.","prd.md > Startbildschirm und die 3 Buttons","index.html, css/styles.css"],
+    ["Splash","Zahl und Spruch beim erneuten Öffnen, blendet zum Startbildschirm über.","prd.md > Splashscreen beim erneuten Öffnen","js/app.js"],
+    ["Tage-Logik","+1 nur einmal pro Kalendertag, Nachfrage bei doppeltem Tippen oder ausgelassenem Tag, manuelle Eingabe. Lokales Datum.","prd.md > Tage korrigieren","js/days.js"],
+    ["Überzeugung","Auswahl negativ oder positiv, einzelne Gründe, Tippen zeigt den nächsten.","prd.md > Überzeugung","js/content.js, js/app.js"],
+    ["Badges","Meilensteine 1, 7, 30, 60, 90, 180, 365 Tage. Effekt nur beim normalen Erreichen, bei Eingabe still gesetzt. Hall of Fame zeigt alle.","prd.md > Meilensteine, Badges und Hall of Fame","js/milestones.js"],
+    ["Einstellungen","Name, Bild, Spruch ändern, wirkt sofort.","prd.md > Einstellungen","js/app.js"],
+    ["Foto-Speicher","Verkleinert auf höchstens 1600 Pixel, JPEG, in IndexedDB.","prd.md > Onboarding","js/image.js, js/store.js"],
+    ["PWA","Manifest, Service Worker, Hinweiskarten für iPhone und Android.","prd.md > Onboarding","manifest.webmanifest, sw.js"]
+  ];
+  function build(id,list,fn){var box=document.getElementById(id);list.forEach(function(d,i){var b=document.createElement('button');b.textContent=d[0];b.onclick=function(){fn(i)};box.appendChild(b)})}
+  function mark(id,i){Array.prototype.forEach.call(document.getElementById(id).children,function(b,j){b.setAttribute('aria-pressed',i===j)})}
+  function showStep(i){mark('steps',i);stepText.textContent=steps[i][1];stepRef.textContent=steps[i][2]}
+  function showComp(i){mark('tabs',i);compText.textContent=comps[i][1];compRef.textContent=comps[i][2];compFile.textContent=comps[i][3]}
+  build('steps',steps,showStep);build('tabs',comps,showComp);showStep(0);showComp(0);
+</script>
+</body>
+</html>
