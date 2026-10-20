@@ -71,3 +71,7 @@ js/image.js           shrinks the chosen photo
 js/pick.js            picks the next reason without repeating
 assets/icons/         app icons made from assets-source/icon-source.webp
 ```
+
+## License
+
+The code is released under the [MIT License](LICENSE). The Manrope font in `assets/fonts/` keeps its own license ([SIL Open Font License 1.1](assets/fonts/Manrope-OFL.txt)).
